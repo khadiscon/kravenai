@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kraven AI - Premier Web3 Marketing Agency</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background:#0a0a0a; color:#fff; overflow-x:hidden; }
+
+.nav { position:fixed; top:0; width:100%; background:rgba(10,10,10,0.95); backdrop-filter:blur(10px); z-index:1000; border-bottom:1px solid rgba(0,255,194,0.1); transition:all 0.3s; }
+.nav.scrolled { background:rgba(10,10,10,0.98); box-shadow:0 5px 30px rgba(0,255,194,0.1); }
+.nav-content { max-width:1400px; margin:0 auto; padding:20px 40px; display:flex; justify-content:space-between; align-items:center; }
+.logo { font-size:1.8rem; font-weight:700; background:linear-gradient(135deg, #00ffc2 0%, #00d4ff 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; cursor:pointer; transition:transform 0.3s; }
+.logo:hover { transform:scale(1.05); }
+.nav-links { display:flex; gap:30px; }
+.nav-links a { color:#fff; text-decoration:none; font-weight:500; transition:all 0.3s; position:relative; }
+.nav-links a::after { content:''; position:absolute; bottom:-5px; left:0; width:0; height:2px; background:#00ffc2; transition:width 0.3s; }
+.nav-links a:hover::after { width:100%; }
+.nav-links a:hover { color:#00ffc2; }
+.mobile-menu { display:none; font-size:1.8rem; cursor:pointer; color:#00ffc2; }
+
+.hero { min-height:100vh; display:flex; align-items:center; justify-content:center; text-align:center; padding:100px 20px 60px; position:relative; overflow:hidden; }
+.hero::before { content:''; position:absolute; width:800px; height:800px; background:radial-gradient(circle, rgba(0,255,194,0.15) 0%, transparent 70%); top:10%; left:50%; transform:translateX(-50%); animation:pulse 8s infinite; }
+.hero::after { content:''; position:absolute; width:400px; height:400px; background:radial-gradient(circle, rgba(0,212,255,0.1) 0%, transparent 70%); bottom:20%; right:10%; animation:pulse 10s infinite reverse; }
+@keyframes pulse { 0%, 100% { transform:translateX(-50%) scale(1); opacity:0.5; } 50% { transform:translateX(-50%) scale(1.2); opacity:0.8; } }
+.hero-content { position:relative; z-index:1; max-width:900px; animation:fadeInUp 1s ease; }
+@keyframes fadeInUp { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
+.hero h1 { font-size:4.5rem; margin-bottom:20px; line-height:1.1; background:linear-gradient(135deg, #fff 0%, #00ffc2 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; animation:fadeInUp 1s ease 0.2s both; }
+.hero p { font-size:1.4rem; color:#b0b0b0; margin-bottom:40px; animation:fadeInUp 1s ease 0.4s both; }
+.stats { display:flex; gap:40px; justify-content:center; flex-wrap:wrap; margin-top:50px; animation:fadeInUp 1s ease 0.6s both; }
+.stat { text-align:center; transition:transform 0.3s; }
+.stat:hover { transform:translateY(-5px); }
+.stat-number { font-size:2.5rem; font-weight:700; color:#00ffc2; }
+.stat-label { font-size:0.9rem; color:#808080; text-transform:uppercase; letter-spacing:1px; }
+.cta-btn { display:inline-block; padding:16px 40px; background:linear-gradient(135deg, #00ffc2 0%, #00d4ff 100%); color:#0a0a0a; font-weight:700; font-size:1.1rem; border-radius:50px; text-decoration:none; transition:all 0.3s; box-shadow:0 10px 40px rgba(0,255,194,0.3); animation:fadeInUp 1s ease 0.8s both; }
+.cta-btn:hover { transform:translateY(-3px); box-shadow:0 15px 50px rgba(0,255,194,0.5); }
+
+.section { padding:100px 40px; max-width:1400px; margin:0 auto; }
+.section-title { font-size:3rem; text-align:center; margin-bottom:60px; background:linear-gradient(135deg, #fff 0%, #00ffc2 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+
+.services-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:30px; }
+.service-card { background:rgba(255,255,255,0.03); border:1px solid rgba(0,255,194,0.1); border-radius:20px; padding:40px; transition:all 0.4s; position:relative; overflow:hidden; }
+.service-card::before { content:''; position:absolute; top:0; left:0; width:100%; height:100%; background:linear-gradient(135deg, rgba(0,255,194,0.1) 0%, transparent 100%); opacity:0; transition:opacity 0.4s; }
+.service-card:hover { transform:translateY(-10px); border-color:rgba(0,255,194,0.3); background:rgba(255,255,255,0.05); }
+.service-card:hover::before { opacity:1; }
+.service-icon { font-size:3rem; margin-bottom:20px; transition:transform 0.4s; }
+.service-card:hover .service-icon { transform:scale(1.1) rotate(5deg); }
+.service-card h3 { font-size:1.5rem; margin-bottom:15px; color:#00ffc2; position:relative; }
+.service-card p { color:#b0b0b0; line-height:1.6; position:relative; }
+
+.portfolio-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(350px, 1fr)); gap:30px; }
+.portfolio-card { background:rgba(255,255,255,0.03); border:1px solid rgba(0,255,194,0.1); border-radius:20px; overflow:hidden; transition:all 0.4s; cursor:pointer; }
+.portfolio-card:hover { transform:translateY(-10px); border-color:rgba(0,255,194,0.3); box-shadow:0 20px 60px rgba(0,255,194,0.2); }
+.portfolio-image { width:100%; height:200px; background:linear-gradient(135deg, rgba(0,255,194,0.2) 0%, rgba(0,212,255,0.2) 100%); display:flex; align-items:center; justify-content:center; font-size:3rem; }
+.portfolio-info { padding:30px; }
+.portfolio-info h3 { font-size:1.5rem; color:#00ffc2; margin-bottom:10px; }
+.portfolio-info p { color:#b0b0b0; line-height:1.6; margin-bottom:15px; }
+.portfolio-stats { display:flex; gap:20px; flex-wrap:wrap; }
+.portfolio-stat { font-size:0.9rem; }
+.portfolio-stat strong { color:#00ffc2; }
+
+.process { background:rgba(0,255,194,0.02); overflow:hidden; padding:150px 0; position:relative; min-height:100vh; display:flex; align-items:center; }
+.process::before { content:''; position:absolute; top:50%; left:0; right:0; height:2px; background:linear-gradient(90deg, transparent, rgba(0,255,194,0.3), transparent); }
+.process::after { content:''; position:absolute; width:300px; height:300px; background:radial-gradient(circle, rgba(0,255,194,0.1) 0%, transparent 70%); border-radius:50%; top:20%; right:10%; animation:float 8s ease-in-out infinite; }
+@keyframes float { 0%, 100% { transform:translateY(0px); } 50% { transform:translateY(-30px); } }
+.process-steps { display:flex; gap:40px; animation:scrollCards 40s linear infinite; width:max-content; padding:40px 0; }
+@keyframes scrollCards { 0% { transform:translateX(0); } 100% { transform:translateX(-50%); } }
+.process-step { display:flex; flex-direction:column; gap:20px; min-width:400px; max-width:400px; min-height:320px; background:linear-gradient(135deg, rgba(0,255,194,0.05) 0%, rgba(0,212,255,0.05) 100%); border:2px solid rgba(0,255,194,0.2); border-radius:20px; padding:40px; transition:all 0.4s; flex-shrink:0; position:relative; overflow:hidden; backdrop-filter:blur(10px); }
+.process-step::before { content:''; position:absolute; top:-50%; left:-50%; width:200%; height:200%; background:radial-gradient(circle, rgba(0,255,194,0.15) 0%, transparent 70%); opacity:0; transition:opacity 0.4s; }
+.process-step::after { content:''; position:absolute; bottom:0; left:0; right:0; height:3px; background:linear-gradient(90deg, #00ffc2, #00d4ff); transform:scaleX(0); transition:transform 0.4s; }
+.process-step:hover::before { opacity:1; }
+.process-step:hover::after { transform:scaleX(1); }
+.process-step:hover { border-color:rgba(0,255,194,0.6); background:linear-gradient(135deg, rgba(0,255,194,0.12) 0%, rgba(0,212,255,0.12) 100%); transform:translateY(-15px) scale(1.03); box-shadow:0 25px 70px rgba(0,255,194,0.4); animation-play-state:paused; z-index:10; }
+.process-steps:hover { animation-play-state:paused; }
+.step-icon { width:80px; height:80px; border-radius:20px; background:linear-gradient(135deg, #00ffc2 0%, #00d4ff 100%); display:flex; align-items:center; justify-content:center; font-size:2.8rem; color:#0a0a0a; transition:all 0.4s; margin:0 auto; flex-shrink:0; box-shadow:0 15px 40px rgba(0,255,194,0.4); position:relative; z-index:1; }
+.step-icon::before { content:''; position:absolute; inset:-3px; background:linear-gradient(135deg, #00ffc2, #00d4ff); border-radius:20px; z-index:-1; opacity:0; transition:opacity 0.4s; filter:blur(10px); }
+.process-step:hover .step-icon::before { opacity:1; }
+.process-step:hover .step-icon { transform:rotateY(360deg) scale(1.15); }
+.step-content { text-align:center; flex:1; display:flex; flex-direction:column; justify-content:center; position:relative; z-index:1; }
+.step-content h3 { font-size:1.5rem; margin-bottom:15px; background:linear-gradient(135deg, #00ffc2 0%, #fff 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-weight:700; }
+.step-content p { color:#c0c0c0; line-height:1.7; font-size:1rem; }
+
+.about { background:linear-gradient(135deg, rgba(0,255,194,0.05) 0%, rgba(0,212,255,0.05) 100%); }
+.about-content { display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center; }
+.about-text h2 { font-size:2.5rem; margin-bottom:20px; color:#00ffc2; }
+.about-text p { color:#b0b0b0; line-height:1.8; margin-bottom:20px; }
+.metrics-grid { display:grid; grid-template-columns:repeat(2, 1fr); gap:20px; }
+.metric-box { background:rgba(0,255,194,0.1); border:1px solid rgba(0,255,194,0.2); border-radius:15px; padding:25px; text-align:center; transition:all 0.3s; }
+.metric-box:hover { transform:scale(1.05); background:rgba(0,255,194,0.15); }
+.metric-box .number { font-size:2rem; font-weight:700; color:#00ffc2; margin-bottom:5px; }
+.metric-box .label { color:#b0b0b0; font-size:0.9rem; }
+
+.testimonials-slider { position:relative; max-width:900px; margin:0 auto; }
+.testimonial { background:rgba(255,255,255,0.03); border:1px solid rgba(0,255,194,0.1); border-radius:20px; padding:40px; text-align:center; display:none; }
+.testimonial.active { display:block; animation:fadeIn 0.5s ease; }
+@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+.testimonial-avatar { width:80px; height:80px; border-radius:50%; margin:0 auto 20px; background:linear-gradient(135deg, #00ffc2 0%, #00d4ff 100%); display:flex; align-items:center; justify-content:center; font-size:2rem; font-weight:700; color:#0a0a0a; }
+.testimonial-avatar-img { width:80px; height:80px; border-radius:50%; margin:0 auto 20px; object-fit:cover; border:3px solid #00ffc2; box-shadow:0 5px 20px rgba(0,255,194,0.3); }
+.testimonial-text { font-size:1.2rem; color:#b0b0b0; line-height:1.8; margin-bottom:20px; font-style:italic; }
+.testimonial-author { font-size:1.1rem; color:#00ffc2; font-weight:600; }
+.testimonial-role { font-size:0.9rem; color:#808080; margin-top:5px; }
+.slider-dots { display:flex; justify-content:center; gap:10px; margin-top:30px; }
+.dot { width:12px; height:12px; border-radius:50%; background:rgba(0,255,194,0.3); cursor:pointer; transition:all 0.3s; }
+.dot.active { background:#00ffc2; transform:scale(1.3); }
+
+.faq { max-width:900px; margin:0 auto; }
+.faq-item { background:rgba(255,255,255,0.03); border:1px solid rgba(0,255,194,0.1); border-radius:15px; padding:30px; margin-bottom:20px; transition:all 0.3s; cursor:pointer; }
+.faq-item:hover { border-color:rgba(0,255,194,0.3); background:rgba(255,255,255,0.05); }
+.faq-item h3 { font-size:1.3rem; color:#00ffc2; display:flex; justify-content:space-between; align-items:center; }
+.faq-icon { font-size:1.5rem; transition:transform 0.3s; color:#00ffc2; }
+.faq-item.active .faq-icon { transform:rotate(45deg); }
+.faq-answer { color:#b0b0b0; line-height:1.7; max-height:0; overflow:hidden; transition:max-height 0.4s ease, margin-top 0.4s ease; }
+.faq-item.active .faq-answer { max-height:300px; margin-top:15px; }
+
+.pricing { background:rgba(0,255,194,0.02); }
+.pricing-toggle { text-align:center; margin-bottom:50px; }
+.toggle-label { font-size:1.1rem; margin:0 15px; color:#b0b0b0; transition:color 0.3s; }
+.toggle-label.active { color:#00ffc2; }
+.toggle { position:relative; display:inline-block; width:70px; height:38px; vertical-align:middle; }
+.toggle input { opacity:0; width:0; height:0; }
+.slider { position:absolute; cursor:pointer; top:0; left:0; right:0; bottom:0; background:rgba(255,255,255,0.1); transition:0.4s; border-radius:34px; border:1px solid rgba(0,255,194,0.2); }
+.slider:before { position:absolute; content:""; height:30px; width:30px; left:4px; bottom:3px; background:#00ffc2; transition:0.4s; border-radius:50%; box-shadow:0 4px 10px rgba(0,255,194,0.4); }
+input:checked + .slider:before { transform:translateX(32px); }
+.discount-badge { background:#00ffc2; color:#0a0a0a; padding:4px 12px; border-radius:20px; font-size:0.85rem; font-weight:700; margin-left:10px; animation:bounce 2s infinite; }
+@keyframes bounce { 0%, 100% { transform:translateY(0); } 50% { transform:translateY(-5px); } }
+.pricing-cards { display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:30px; }
+.pricing-card { background:rgba(255,255,255,0.03); border:2px solid rgba(0,255,194,0.1); border-radius:20px; padding:40px; text-align:center; transition:all 0.4s; position:relative; overflow:hidden; }
+.pricing-card::before { content:''; position:absolute; top:0; left:0; width:100%; height:100%; background:linear-gradient(135deg, rgba(0,255,194,0.1) 0%, transparent 100%); opacity:0; transition:opacity 0.4s; }
+.pricing-card:hover { transform:translateY(-10px); border-color:rgba(0,255,194,0.3); }
+.pricing-card:hover::before { opacity:1; }
+.pricing-card.popular { border-color:#00ffc2; background:rgba(0,255,194,0.08); transform:scale(1.05); }
+.popular-badge { position:absolute; top:20px; right:-35px; background:#00ffc2; color:#0a0a0a; padding:5px 40px; transform:rotate(45deg); font-size:0.75rem; font-weight:700; text-transform:uppercase; }
+.pricing-card h3 { font-size:2rem; margin-bottom:20px; color:#00ffc2; position:relative; }
+.pricing-card .price { font-size:3rem; font-weight:700; margin:20px 0; position:relative; display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; }
+.pricing-card .price small { font-size:1rem; color:#808080; }
+.pricing-card ul { list-style:none; margin:30px 0; text-align:left; }
+.pricing-card li { padding:12px 0; padding-left:30px; position:relative; color:#b0b0b0; }
+.pricing-card li::before { content:'✓'; position:absolute; left:0; color:#00ffc2; font-weight:700; font-size:1.2rem; }
+.pricing-btn { display:block; width:100%; padding:15px; background:linear-gradient(135deg, #00ffc2 0%, #00d4ff 100%); color:#0a0a0a; font-weight:700; border:none; border-radius:50px; cursor:pointer; text-decoration:none; transition:all 0.3s; position:relative; }
+.pricing-btn:hover { transform:scale(1.05); box-shadow:0 10px 30px rgba(0,255,194,0.4); }
+
+.contact { background:linear-gradient(135deg, rgba(0,255,194,0.08) 0%, rgba(0,212,255,0.08) 100%); text-align:center; }
+.contact p { font-size:1.2rem; color:#b0b0b0; margin-bottom:30px; }
+
+.newsletter { background:#0a0a0a; padding:80px 40px; }
+.newsletter-content { max-width:700px; margin:0 auto; text-align:center; background:rgba(255,255,255,0.03); border:1px solid rgba(0,255,194,0.2); border-radius:20px; padding:60px 40px; transition:all 0.3s; }
+.newsletter-content:hover { border-color:rgba(0,255,194,0.4); background:rgba(255,255,255,0.05); }
+.newsletter-content h2 { font-size:2.5rem; margin-bottom:15px; color:#fff; }
+.newsletter-content p { font-size:1.2rem; color:#b0b0b0; margin-bottom:40px; }
+.newsletter-form { display:flex; gap:15px; flex-direction:column; max-width:500px; margin:0 auto; }
+.newsletter-form input { padding:18px 25px; background:rgba(255,255,255,0.05); border:2px solid rgba(0,255,194,0.2); border-radius:10px; color:#fff; font-size:1.1rem; transition:all 0.3s; }
+.newsletter-form input:focus { outline:none; border-color:#00ffc2; background:rgba(255,255,255,0.08); box-shadow:0 0 20px rgba(0,255,194,0.2); }
+.newsletter-form input::placeholder { color:#666; }
+.subscribe-btn { padding:18px 40px; background:linear-gradient(135deg, #00ffc2 0%, #00d4ff 100%); color:#0a0a0a; font-weight:700; font-size:1.1rem; border:none; border-radius:10px; cursor:pointer; transition:all 0.3s; }
+.subscribe-btn:hover { transform:scale(1.05); box-shadow:0 10px 30px rgba(0,255,194,0.4); }
+
+.footer { background:#050505; padding:40px 20px; text-align:center; border-top:1px solid rgba(0,255,194,0.1); }
+.footer p { color:#808080; }
+
+.scroll-top { position:fixed; bottom:30px; right:30px; width:50px; height:50px; background:linear-gradient(135deg, #00ffc2 0%, #00d4ff 100%); border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; opacity:0; transition:all 0.3s; z-index:999; }
+.scroll-top.visible { opacity:1; }
+.scroll-top:hover { transform:translateY(-5px); box-shadow:0 10px 30px rgba(0,255,194,0.4); }
+.scroll-top::before { content:'↑'; color:#0a0a0a; font-size:1.5rem; font-weight:700; }
+
+@media(max-width:768px) { 
+  .hero h1{font-size:2.5rem} 
+  .nav-links{display:none} 
+  .mobile-menu{display:block}
+  .about-content{grid-template-columns:1fr} 
+  .pricing-cards{grid-template-columns:1fr} 
+  .stats{gap:20px} 
+  .section{padding:60px 20px}
+  .portfolio-grid{grid-template-columns:1fr}
+  .services-grid{grid-template-columns:1fr}
+  .newsletter-content{padding:40px 20px}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav" id="navbar">
+  <div class="nav-content">
+    <div class="logo" onclick="scrollToTop()">
+      <span style="vertical-align:middle;">Kraven AI</span>
+    </div>
+    <div class="nav-links">
+      <a href="#services">Services</a>
+      <a href="#portfolio">Portfolio</a>
+      <a href="#process">Process</a>
+      <a href="#about">About</a>
+      <a href="#testimonials">Testimonials</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="mobile-menu">☰</div>
+  </div>
+</nav>
+
+<section class="hero">
+
+  <div class="hero-content">
+    <h1>Elevate Your Web3 Project to New Heights</h1>
+    <p>Premier marketing solutions driven by dedication and hard work. From community building to KOL partnerships, we're committed to helping your project succeed.</p>
+    
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-number">530K+</div>
+        <div class="stat-label">Followers</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">813M+</div>
+        <div class="stat-label">Impressions</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">800K+</div>
+        <div class="stat-label">Community Reach</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">11+</div>
+        <div class="stat-label">Projects</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">500+</div>
+        <div class="stat-label">KOL Network</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="services" class="section">
+  <h2 class="section-title">Our Services</h2>
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-icon">✨</div>
+      <h3>First Impression & Community Infrastructure</h3>
+      <p>We build the foundation that makes a project look legit from day one. Onboard 100+ vetted KOLs with 1,500-150,000+ followers, complete Discord setup with ticket systems, and professional moderation to keep communities active and welcoming.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">📢</div>
+      <h3>Marketing & Outreach</h3>
+      <p>We don't "post content." We engineer growth. Strategic campaigns, managed ambassador programs with written/video content, AMAs, X Spaces coordination, and strategic partnerships with aligned projects to expand reach and strengthen reputation.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🚀</div>
+      <h3>Engagement Growth</h3>
+      <p>Drive real engagement, not bot noise. Our organic KOL engagement improves post performance, boosts utility awareness, and enables discovery by new users—creating sustainable momentum for your project.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🎨</div>
+      <h3>UI/UX Design (Figma Specialists)</h3>
+      <p>Dedicated UI/UX team specializing in Figma delivers clean, modern interfaces with high-conversion user flows and designs that signal quality and trust to your audience.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">💡</div>
+      <h3>Strategy & Business Consultation</h3>
+      <p>We don't recycle strategies. With experience across multiple Web3 projects, we identify what actually moves the needle, avoid wasted spend, and build long-term growth systems—not short-term hype.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">📦</div>
+      <h3>Flexible Packages</h3>
+      <p>3 core packages designed around common project needs, each delivering different levels of growth. Custom packages available—tailored to your goals with ready-made teams assembled based on your specific demands.</p>
+    </div>
+  </div>
+</section>
+
+<section id="portfolio" class="section">
+  <h2 class="section-title">Case Studies</h2>
+  <div class="portfolio-grid">
+    <div class="portfolio-card">
+      <img src="https://raw.githubusercontent.com/khadiscon/kravenai/main/5963321216305138641.jpg" alt="GameFi Platform" style="width:100%; height:200px; object-fit:cover; display:block;">
+      <div class="portfolio-info">
+        <h3>GameFi Platform Marketing</h3>
+        <p>Provided comprehensive 4-month marketing campaign for an emerging play-to-earn platform, focusing on community building, KOL partnerships, and strategic social media engagement.</p>
+        <div class="portfolio-stats">
+          <div class="portfolio-stat"><strong>4 Months</strong> Campaign</div>
+          <div class="portfolio-stat"><strong>Dedicated</strong> Support</div>
+          <div class="portfolio-stat"><strong>Full</strong> KOL Network</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="process" class="section process">
+  <h2 class="section-title">Our Process</h2>
+  <div class="process-steps">
+    <div class="process-step">
+      <div class="step-icon">📞</div>
+      <div class="step-content">
+        <h3>Exploratory Call</h3>
+        <p>We start with an exploratory call to understand your brand, objectives, and target market. This helps us develop a tailored proposal that meets your unique requirements.</p>
+      </div>
+    </div>
+    <div class="process-step">
+      <div class="step-icon">📋</div>
+      <div class="step-content">
+        <h3>Customized Proposal</h3>
+        <p>Using the insights from the discovery call, we develop a custom proposal that outlines the project details, schedules, and expected outcomes.</p>
+      </div>
+    </div>
+    <div class="process-step">
+      <div class="step-icon">🚀</div>
+      <div class="step-content">
+        <h3>Campaign Initiatives</h3>
+        <p>Once the proposal is accepted, we commence your campaign by launching a personalized Discord server, organizing your brand, and ensuring all prerequisites for a successful campaign are in place.</p>
+      </div>
+    </div>
+    <div class="process-step">
+      <div class="step-icon">⚙️</div>
+      <div class="step-content">
+        <h3>Continuous Management</h3>
+        <p>Our services don't end with the launch of your campaign. We offer ongoing assistance to guarantee that your brand's visibility stays robust and your campaigns consistently achieve results.</p>
+      </div>
+    </div>
+    <div class="process-step">
+      <div class="step-icon">📊</div>
+      <div class="step-content">
+        <h3>Analysis and Reporting</h3>
+        <p>Throughout the campaign, we provide detailed analytics and stats both during and at the end of it, delivering comprehensive reports on performance and outcomes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about" class="section about">
+  <h2 class="section-title">About Kraven AI</h2>
+  <div class="about-content">
+    <div class="about-text">
+      <h2>Your Premier Web3 Marketing Partner</h2>
+      <p>We're a dedicated marketing agency specializing in the Web3 ecosystem. Working with 11+ projects, we've helped our clients generate over 813 million impressions and reach 800K+ engaged community members.</p>
+      <p>Our extensive network of 500+ verified KOLs and influencers, combined with our 530,000+ follower base, positions us uniquely to amplify your project's message and reach the right audience at the right time.</p>
+      <p>We don't just run campaigns—we build sustainable communities and create lasting brand value in the competitive Web3 landscape through consistent hard work and dedication.</p>
+    </div>
+    <div class="metrics-grid">
+      <div class="metric-box">
+        <div class="number">530K+</div>
+        <div class="label">Total Followers</div>
+      </div>
+      <div class="metric-box">
+        <div class="number">813M+</div>
+        <div class="label">Campaign Impressions</div>
+      </div>
+      <div class="metric-box">
+        <div class="number">800K+</div>
+        <div class="label">Community Reach</div>
+      </div>
+      <div class="metric-box">
+        <div class="number">11+</div>
+        <div class="label">Projects Served</div>
+      </div>
+      <div class="metric-box">
+        <div class="number">500+</div>
+        <div class="label">KOL Network</div>
+      </div>
+      <div class="metric-box">
+        <div class="number">24/7</div>
+        <div class="label">Community Support</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="testimonials" class="section">
+  <h2 class="section-title">What Our Clients Say</h2>
+  <div class="testimonials-slider">
+    <div class="testimonial active">
+      <img src="https://raw.githubusercontent.com/khadiscon/kravenai/main/Screenshot 2025-12-28 042050.png" alt="Satya" class="testimonial-avatar-img">
+      <p class="testimonial-text">"Kraven AI transformed our token launch. Their KOL network and community building expertise helped us build a thriving engaged community. Absolutely phenomenal dedication and results!"</p>
+      <div class="testimonial-author">Satya</div>
+      <div class="testimonial-role">CEO, CryptoVentures</div>
+    </div>
+    <div class="testimonial">
+      <img src="https://raw.githubusercontent.com/khadiscon/kravenai/main/Screenshot 2025-12-28 053000.png" alt="PRUDENT" class="testimonial-avatar-img">
+      <p class="testimonial-text">"Working with Kraven AI was a game-changer for our project. Their strategic approach and attention to detail resulted in massive engagement growth and community expansion. Highly recommend their dedication!"</p>
+      <div class="testimonial-author">PRUDENT 📊🔺(♟️,♟️)</div>
+      <div class="testimonial-role">Founder, DeFi Innovations</div>
+    </div>
+  </div>
+  <div class="slider-dots">
+    <span class="dot active" onclick="currentSlide(0)"></span>
+    <span class="dot" onclick="currentSlide(1)"></span>
+  </div>
+</section>
+
+<section id="pricing" class="section pricing">
+  <h2 class="section-title">Pricing Plans</h2>
+  <div class="pricing-toggle">
+    <span class="toggle-label active" id="monthly-label">Monthly</span>
+    <label class="toggle">
+      <input type="checkbox" id="billing-toggle">
+      <span class="slider"></span>
+    </label>
+    <span class="toggle-label" id="quarterly-label">3 Months<span class="discount-badge">Save 33%</span></span>
+  </div>
+  <div class="pricing-cards">
+    <div class="pricing-card">
+      <h3>Builder</h3>
+      <div class="price" id="builder-price">$1,500<small>/month</small></div>
+      <ul>
+        <li>Basic Engagement on X Account</li>
+        <li>Setting up Discord</li>
+        <li>Keeping Discord chat alive organically</li>
+        <li>Presence of Moderators for Support</li>
+      </ul>
+      <a class="pricing-btn" id="builder-btn" href="https://t.me/marketmercenary?text=Hi Kraven AI, I'm interested in the Builder plan ($1500/month). Let's talk.">Get Started</a>
+    </div>
+    <div class="pricing-card popular">
+      <div class="popular-badge">Most Popular</div>
+      <h3>Premium</h3>
+      <div class="price" id="premium-price">$3,000<small>/month</small></div>
+      <ul>
+        <li>Basic Engagement on X Account</li>
+        <li>Setting up Discord</li>
+        <li>Keeping Discord chat alive</li>
+        <li>Presence of Moderators</li>
+        <li>Ongoing Marketing Plan with Ambassadors</li>
+      </ul>
+      <a class="pricing-btn" id="premium-btn" href="https://t.me/marketmercenary?text=Hi Kraven AI, I'm interested in the Premium plan ($3000/month). Let's talk.">Get Started</a>
+    </div>
+    <div class="pricing-card">
+      <h3>Premium Plus</h3>
+      <div class="price" id="premium-plus-price">$10,000<small>/month</small></div>
+      <ul>
+        <li>Basic Engagement on X Account</li>
+        <li>Setting up Discord</li>
+        <li>Keeping Discord chat alive</li>
+        <li>Presence of Moderators</li>
+        <li>Top-Tier KOLs with Real Communities</li>
+        <li>Ongoing Twitter Spaces & Ambassador Program</li>
+      </ul>
+      <a class="pricing-btn" id="premium-plus-btn" href="https://t.me/marketmercenary?text=Hi Kraven AI, I'm interested in the Premium Plus plan ($10000/month). Let's talk.">Get Started</a>
+    </div>
+  </div>
+</section>
+
+<section id="faq" class="section faq">
+  <h2 class="section-title">Frequently Asked Questions</h2>
+  <div class="faq-item" onclick="toggleFaq(this)">
+    <h3>What services do you provide? <span class="faq-icon">+</span></h3>
+    <p class="faq-answer">We offer comprehensive marketing and community management services including KOL outreach, social media campaigns, community building on Discord and Telegram, Twitter Spaces hosting, and ongoing brand management for Web3 and crypto projects.</p>
+  </div>
+  <div class="faq-item" onclick="toggleFaq(this)">
+    <h3>How long does a typical campaign take? <span class="faq-icon">+</span></h3>
+    <p class="faq-answer">Campaign timelines vary based on project needs, but most campaigns run for 4-12 weeks with ongoing support available. We'll discuss specific timelines during our exploratory call to ensure we meet your launch deadlines and growth objectives.</p>
+  </div>
+  <div class="faq-item" onclick="toggleFaq(this)">
+    <h3>What results can I expect? <span class="faq-icon">+</span></h3>
+    <p class="faq-answer">Results vary by project goals and we're committed to delivering dedicated, high-quality service. Our track record includes generating 813M+ impressions across 11+ projects and building engaged communities of 800K+ members. We focus on consistent hard work, genuine engagement, and sustainable community growth.</p>
+  </div>
+  <div class="faq-item" onclick="toggleFaq(this)">
+    <h3>How do you measure campaign success? <span class="faq-icon">+</span></h3>
+    <p class="faq-answer">We provide detailed analytics throughout and at the end of each campaign, tracking metrics like engagement rates, follower growth, impression volume, community activity, conversion rates, and ROI to ensure transparency and measurable results.</p>
+  </div>
+</section>
+
+<section id="contact" class="section contact">
+  <h2 class="section-title">Ready to Elevate Your Project?</h2>
+  <p>Let's discuss how we can help you achieve your Web3 marketing goals.</p>
+  <a href="https://t.me/marketmercenary?text=Hi Kraven AI, I'd like to schedule an exploratory call to discuss my project." class="cta-btn">Schedule Consultation</a>
+</section>
+
+<section class="section newsletter">
+  <div class="newsletter-content">
+    <h2>Stay Updated on Web3 Marketing</h2>
+    <p>Get weekly insights, case studies, and strategies delivered to your inbox.</p>
+    <form class="newsletter-form" id="newsletter-form">
+      <input type="email" name="email" id="newsletter-email" placeholder="Enter your email" required>
+      <button type="submit" class="subscribe-btn">Subscribe</button>
+      <p id="form-status" style="margin-top:15px; font-size:1rem; color:#10b981;"></p>
+    </form>
+  </div>
+</section>
+
+<footer class="footer">
+  <p>© 2024 Kraven AI Marketing Agency. All rights reserved.</p>
+</footer>
+
+<div class="scroll-top" id="scrollTop" onclick="scrollToTop()"></div>
+
+<script>
+window.addEventListener('scroll', function() {
+  const navbar = document.getElementById('navbar');
+  if (window.scrollY > 50) {
+    navbar.classList.add('scrolled');
+  } else {
+    navbar.classList.remove('scrolled');
+  }
+  
+  const scrollTop = document.getElementById('scrollTop');
+  if (window.scrollY > 500) {
+    scrollTop.classList.add('visible');
+  } else {
+    scrollTop.classList.remove('visible');
+  }
+});
+
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function (e) {
+    e.preventDefault();
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+const toggle = document.getElementById('billing-toggle');
+const monthlyLabel = document.getElementById('monthly-label');
+const quarterlyLabel = document.getElementById('quarterly-label');
+const plans = [
+  { id: 'builder', monthly: 1500, tri: 3000 },
+  { id: 'premium', monthly: 3000, tri: 6000 },
+  { id: 'premium-plus', monthly: 10000, tri: 20000 }
+];
+
+function updatePricing() {
+  plans.forEach(plan => {
+    const priceEl = document.getElementById(`${plan.id}-price`);
+    const btn = document.getElementById(`${plan.id}-btn`);
+    const planName = plan.id.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+   
+    if (toggle.checked) {
+      const originalPrice = plan.monthly * 3;
+      priceEl.innerHTML = `
+        <span style="text-decoration: line-through; color: #808080; font-size: 1.5rem;">$${originalPrice.toLocaleString()}</span>
+        $${plan.tri.toLocaleString()}<small>/3 months</small>
+      `;
+      btn.href = `https://t.me/Sanemi_Shinazugawa69?text=Hi Kraven AI, I'm interested in the ${planName} plan ($${plan.tri}/3M). Let's talk.`;
+      monthlyLabel.classList.remove('active');
+      quarterlyLabel.classList.add('active');
+    } else {
+      priceEl.innerHTML = `$${plan.monthly.toLocaleString()}<small>/month</small>`;
+      btn.href = `https://t.me/Sanemi_Shinazugawa69?text=Hi Kraven AI, I'm interested in the ${planName} plan ($${plan.monthly}/month). Let's talk.`;
+      monthlyLabel.classList.add('active');
+      quarterlyLabel.classList.remove('active');
+    }
+  });
+}
+
+toggle.addEventListener('change', updatePricing);
+updatePricing();
+
+function toggleFaq(element) {
+  const wasActive = element.classList.contains('active');
+  document.querySelectorAll('.faq-item').forEach(item => item.classList.remove('active'));
+  if (!wasActive) {
+    element.classList.add('active');
+  }
+}
+
+let slideIndex = 0;
+const testimonials = document.querySelectorAll('.testimonial');
+const dots = document.querySelectorAll('.dot');
+
+function showSlide(n) {
+  testimonials.forEach(t => t.classList.remove('active'));
+  dots.forEach(d => d.classList.remove('active'));
+  
+  if (n >= testimonials.length) slideIndex = 0;
+  if (n < 0) slideIndex = testimonials.length - 1;
+  
+  testimonials[slideIndex].classList.add('active');
+  dots[slideIndex].classList.add('active');
+}
+
+function currentSlide(n) {
+  slideIndex = n;
+  showSlide(slideIndex);
+}
+
+setInterval(() => {
+  slideIndex++;
+  showSlide(slideIndex);
+}, 5000);
+
+const newsletterForm = document.getElementById('newsletter-form');
+const formStatus = document.getElementById('form-status');
+
+newsletterForm.addEventListener('submit', async function(e) {
+  e.preventDefault();
+  
+  const email = document.getElementById('newsletter-email').value;
+  const btn = newsletterForm.querySelector('.subscribe-btn');
+  const originalText = btn.textContent;
+  
+  btn.textContent = 'Subscribing...';
+  btn.disabled = true;
+  formStatus.textContent = '';
+  
+  try {
+    const response = await fetch('https://formspree.io/f/xlgeoddp', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({ email: email })
+    });
+    
+    const data = await response.json();
+    
+    if (response.ok) {
+      btn.textContent = '✓ Subscribed!';
+      btn.style.background = '#10b981';
+      formStatus.style.color = '#10b981';
+      formStatus.textContent = '✅ Thank you for subscribing! You\'ll receive weekly Web3 marketing insights.';
+      newsletterForm.reset();
+      
+      setTimeout(() => {
+        btn.textContent = originalText;
+        btn.disabled = false;
+        btn.style.background = '';
+        formStatus.textContent = '';
+      }, 5000);
+    } else {
+      throw new Error(data.error || 'Submission failed');
+    }
+  } catch (error) {
+    btn.textContent = 'Try Again';
+    btn.disabled = false;
+    formStatus.style.color = '#ff6b6b';
+    formStatus.textContent = '❌ Something went wrong. Please try again or contact @marketmercenary';
+    console.error('Form Error:', error);
+  }
+});
+
+const observerOptions = {
+  threshold: 0.1,
+  rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+    }
+  });
+}, observerOptions);
+
+document.querySelectorAll('.service-card, .portfolio-card, .metric-box').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(20px)';
+  el.style.transition = 'all 0.6s ease';
+  observer.observe(el);
+});
+</script>
+
+</body>
+</html>
